@@ -3,26 +3,31 @@ import { Document, Page } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 
+
+interface TextItem {
+    str: string;
+    // other properties...
+}
 export default function Test() {
     const [searchTexts, setSearchTexts] = useState<string[]>(['a specific position']);
     // const [highlightIndex, setHighlightIndex] = useState(0);
-    const [highlightColor, setHighlightColor] = useState('yellow');
+    // const [highlightColor, setHighlightColor] = useState('yellow');
     // const highlights = document.querySelectorAll('mark');
 
     function highlightPattern(text:string, patterns:string[]) {
         let highlightedText = text;
         patterns.forEach(pattern => {
-            highlightedText = highlightedText.replace(pattern, (value) => `<mark style="background-color: ${highlightColor};">${value}</mark>`);
+            highlightedText = highlightedText.replace(pattern, (value) => `<mark style="background-color: yellow">${value}</mark>`);
         });
         return highlightedText;
     }
 
     const textRenderer = useCallback(
-        (textItem:any) => highlightPattern(textItem.str, searchTexts),
-        [searchTexts, highlightColor]
+        (textItem: TextItem) => highlightPattern(textItem.str, searchTexts),
+        [searchTexts]
     );
 
-    function onChange(event:any) {
+    function onChange(event: React.ChangeEvent<HTMLInputElement>) {
         setSearchTexts(event.target.value.split(','));
     }
 
